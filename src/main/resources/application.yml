@@ -1,6 +1,8 @@
+server:
+    port: 8081
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/quanlycuahang
+        url: jdbc:mysql://localhost:3306/doan
         username: root
         password: 1234
     jpa:
@@ -11,3 +13,4 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect #every database have varies dialect. Configuration connection databe. Ex: mysql
                 enable_lazy_load_no_trans: true
+
