@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/get-brand-category")
-    public ResponseEntity<Result<List<Object>>> getAllArea() throws JsonProcessingException {
+    public ResponseEntity<Result<List<Object>>> getBrandAndCategory() throws JsonProcessingException {
         try {
             Result<List<Object>> rs = new Result<>();
             rs.setBody(productService.getBrandAndCategory());
@@ -65,6 +65,18 @@ public class ProductController {
             list.add(pageTust.getContent());
             list.add(pageTust.getTotalElements());
             result.setBody(list);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/load-all")
+    public ResponseEntity<Result<List<Product>>> loadDataAll() {
+        try {
+            List<Product> pageTust = productService.loadAll();
+            Result<List<Product>> result = new Result<>();
+            result.setBody(pageTust);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

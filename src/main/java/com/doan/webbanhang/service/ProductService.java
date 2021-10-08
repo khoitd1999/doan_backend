@@ -17,4 +17,6 @@ public interface ProductService {
     Product save(Product product, MultipartFile multipartFile) throws IOException;
 
     Page<Product> loadAllData(SearchTermDTO searchTermDTO, Pageable pageable);
+
+    List<Product> loadAll();
 }

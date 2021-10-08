@@ -12,9 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class WareHouseServiceImpl implements WareHouseService {
     private final AreaRepository areaRepository;
     private final WareHouseRepository wareHouseRepository;

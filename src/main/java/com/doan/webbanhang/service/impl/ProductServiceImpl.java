@@ -12,12 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
@@ -58,5 +60,9 @@ public class ProductServiceImpl implements ProductService {
 
     public Page<Product> loadAllData(SearchTermDTO searchTermDTO, Pageable pageable) {
         return productRepository.loadAllData(searchTermDTO, pageable);
+    }
+
+    public List<Product> loadAll() {
+        return productRepository.findAll();
     }
 }

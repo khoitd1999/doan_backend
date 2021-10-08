@@ -13,4 +13,7 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect #every database have varies dialect. Configuration connection databe. Ex: mysql
                 enable_lazy_load_no_trans: true
+                event:
+                    merge:
+                        entity_copy_observer: allow #fix bug : Multiple represent in same entity
 

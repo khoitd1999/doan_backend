@@ -13,4 +13,6 @@ public class SearchTermDTO {
     private String addressSearch;
     private Integer idCat;
     private Integer idBra;
+    private Integer idEmp;
+    private Integer idWar;
 }
