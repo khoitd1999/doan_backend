@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,9 @@ import java.util.List;
 
 @RestController
 public class API {
+
+    @Value(value = "key")
+    private String key;
 
     @GetMapping(path = "/geocode")
     public GoogleAPI getGeocode() throws IOException {
@@ -30,7 +34,7 @@ public class API {
             sb.append("%7C").append(des);
         }
         Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin +"&destinations=" + sb.toString() + "&key=AIzaSyD_qbY0HwQaGA9tbMkOIP_4Mq4wvjZ_B14")
+                .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin +"&destinations=" + sb.toString() + "&key=" + key)
                 .method("GET", null)
                 .build();
         ResponseBody responseBody = client.newCall(request).execute().body();
