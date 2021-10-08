@@ -1,5 +1,8 @@
 package com.doan.webbanhang.entity;
 
+import com.doan.webbanhang.dto.ProductDTO;
+import com.doan.webbanhang.dto.WarehouseReceiptDTO;
+import com.doan.webbanhang.dto.WarehouseReceiptDetailDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -18,6 +21,47 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "ProductDTO",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = ProductDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = Long.class),
+                                        @ColumnResult(name = "namePro", type = String.class),
+                                        @ColumnResult(name = "price", type = Double.class),
+                                        @ColumnResult(name = "idCat", type = Long.class),
+                                        @ColumnResult(name = "idBra", type = Long.class),
+                                        @ColumnResult(name = "description", type = String.class),
+                                        @ColumnResult(name = "screen", type = String.class),
+                                        @ColumnResult(name = "os", type = String.class),
+                                        @ColumnResult(name = "ram", type = String.class),
+                                        @ColumnResult(name = "battery", type = String.class),
+                                        @ColumnResult(name = "date", type = LocalDate.class),
+                                        @ColumnResult(name = "image", type = byte[].class),
+                                        @ColumnResult(name = "status", type = Boolean.class),
+                                }
+                        )
+                }
+        ),
+        @SqlResultSetMapping(
+                name = "ProductDTOForReceipt",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = ProductDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = Long.class),
+                                        @ColumnResult(name = "namePro", type = String.class),
+                                        @ColumnResult(name = "price", type = Double.class),
+                                        @ColumnResult(name = "idCat", type = Long.class),
+                                        @ColumnResult(name = "idBra", type = Long.class),
+                                        @ColumnResult(name = "description", type = String.class),
+                                }
+                        )
+                }
+        ),
+})
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -62,6 +106,5 @@ public class Product implements Serializable {
     private byte[] image;
 
     @Column(name = "status")
-    private boolean status;
-
+    private Boolean status;
 }

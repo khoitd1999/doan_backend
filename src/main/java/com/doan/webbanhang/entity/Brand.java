@@ -21,4 +21,7 @@ public class Brand implements Serializable {
 
     @Column(name = "namebra")
     private String nameBra;
+
+    @Column(name = "idcat")
+    private Long idCat;
 }

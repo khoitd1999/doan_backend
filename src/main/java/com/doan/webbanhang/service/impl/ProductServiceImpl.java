@@ -48,13 +48,34 @@ public class ProductServiceImpl implements ProductService {
             if (check != null && check.getId() != null && !check.getId().equals(product.getId())) {
                 return null;
             }
+            if (multipartFile == null) {
+                Product temp = new Product();
+                temp.setNamePro(product.getNamePro());
+                temp.setPrice(product.getPrice());
+                temp.setIdCat(product.getIdCat());
+                temp.setIdBra(product.getIdBra());
+                temp.setDescription(product.getDescription());
+                temp.setScreen(product.getScreen());
+                temp.setOs(product.getOs());
+                temp.setRam(product.getRam());
+                temp.setBattery(product.getBattery());
+                temp.setDate(product.getDate());
+                temp.setStatus(product.getStatus());
+                productRepository.updateOne(temp.getNamePro(), temp.getPrice(), temp.getIdCat(), temp.getIdBra(), temp.getDescription(),
+                        temp.getScreen(), temp.getOs(), temp.getRam(), temp.getBattery(), temp.getDate(), temp.getStatus(), product.getId());
+            } else {
+                product.setImage(Common.compressBytes(multipartFile.getBytes()));
+                product = productRepository.save(product);
+            }
         } else {
             if (check != null && check.getId() != null) {
                 return null;
             }
+            if (multipartFile != null) {
+                product.setImage(Common.compressBytes(multipartFile.getBytes()));
+            }
+            product = productRepository.save(product);
         }
-        product.setImage(Common.compressBytes(multipartFile.getBytes()));
-        product = productRepository.save(product);
         return product;
     }
 
@@ -63,6 +84,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public List<Product> loadAll() {
-        return productRepository.findAll();
+        return productRepository.loadAllDataForReceipt();
     }
 }

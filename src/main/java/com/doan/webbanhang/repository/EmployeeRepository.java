@@ -11,4 +11,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query(value = "select * from Employee where role = ?1", nativeQuery = true)
     List<Employee> findAllByRole(String role);
+
+    @Query(value = "select * from Employee where username = ?1 and password = ?2", nativeQuery = true)
+    Employee checkLogin(String username, String password);
 }
