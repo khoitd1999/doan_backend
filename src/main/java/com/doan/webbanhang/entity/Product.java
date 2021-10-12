@@ -61,6 +61,22 @@ import java.time.LocalDate;
                         )
                 }
         ),
+        @SqlResultSetMapping(
+                name = "ProductDTOForWelcome",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = ProductDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = Long.class),
+                                        @ColumnResult(name = "namePro", type = String.class),
+                                        @ColumnResult(name = "price", type = Double.class),
+                                        @ColumnResult(name = "idCat", type = Long.class),
+                                        @ColumnResult(name = "idBra", type = Long.class),
+                                        @ColumnResult(name = "image", type = byte[].class),
+                                }
+                        )
+                }
+        ),
 })
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -107,4 +123,7 @@ public class Product implements Serializable {
 
     @Column(name = "status")
     private Boolean status;
+
+    @Transient
+    private Boolean isLoadMore;
 }

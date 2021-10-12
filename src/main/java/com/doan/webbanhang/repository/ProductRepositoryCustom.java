@@ -1,5 +1,6 @@
 package com.doan.webbanhang.repository;
 
+import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.Product;
 import org.springframework.data.domain.Page;
@@ -13,4 +14,8 @@ public interface ProductRepositoryCustom {
     Page<Product> loadAllData(SearchTermDTO searchTermDTO, Pageable pageable);
 
     List<Product> loadAllDataForReceipt();
+
+    List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID);
+
+    ProductDTO findOneById(Long id);
 }

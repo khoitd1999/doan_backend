@@ -1,8 +1,10 @@
 package com.doan.webbanhang.controller;
 
+import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.Result;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.Area;
+import com.doan.webbanhang.entity.Brand;
 import com.doan.webbanhang.entity.Product;
 import com.doan.webbanhang.entity.WareHouse;
 import com.doan.webbanhang.service.ProductService;
@@ -41,6 +43,16 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/get-brand")
+    public ResponseEntity<List<Brand>> getBrand(@RequestParam Long idCat) throws JsonProcessingException {
+        try {
+            List<Brand> rs = productService.getBrand(idCat);
+            return new ResponseEntity<>(rs, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/save")
     public ResponseEntity<Result<Product>> save(@RequestParam(required = false) MultipartFile imageFile, @RequestParam String productString) throws IOException {
         Result<Product> result = new Result<>();
@@ -64,6 +76,13 @@ public class ProductController {
             List<Object> list = new ArrayList<>();
             list.add(pageTust.getContent());
             list.add(pageTust.getTotalElements());
+            if (searchTermDTO.getSizeCurrent() != null) {
+                if (pageTust.getTotalElements() > 0) {
+                    result.setIsLoadMore(pageTust.getContent().get(0).getIsLoadMore());
+                } else {
+                    result.setIsLoadMore(false);
+                }
+            }
             result.setBody(list);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex){
@@ -78,6 +97,26 @@ public class ProductController {
             Result<List<Product>> result = new Result<>();
             result.setBody(pageTust);
             return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/get-product-default-for-welcome")
+    public ResponseEntity<List<ProductDTO>> loadProductDefaultForWelcome(@RequestBody List<Long> listID) {
+        try {
+            List<ProductDTO> pageTust = productService.loadProductDefaultForWelcome(listID);
+            return new ResponseEntity<>(pageTust, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/find-by-id")
+    public ResponseEntity<ProductDTO> findByID(@RequestParam Long id) {
+        try {
+            ProductDTO pageTust = productService.findById(id);
+            return new ResponseEntity<>(pageTust, HttpStatus.OK);
         } catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

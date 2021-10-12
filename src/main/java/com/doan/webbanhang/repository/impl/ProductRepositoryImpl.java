@@ -43,6 +43,25 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             sql.append(" and idBra = :idBra");
             params.put("idBra", searchTermDTO.getIdBra());
         }
+        if (searchTermDTO.getPriceFilter() != null) {
+            switch (searchTermDTO.getPriceFilter()) {
+                case 1:
+                    sql.append(" and price < 15000000 ");
+                    break;
+                case 2:
+                    sql.append(" and price >= 15000000 and price <= 20000000 ");
+                    break;
+                case 3:
+                    sql.append(" and price >= 20000000 and price <= 25000000 ");
+                    break;
+                case 4:
+                    sql.append(" and price >= 25000000 and price <= 30000000 ");
+                    break;
+                case 5:
+                    sql.append(" and price >= 30000000 ");
+                    break;
+            }
+        }
         Query countQuerry = entityManager.createNativeQuery("SELECT Count(1) " + sql.toString());
         Common.setParams(countQuerry, params);
         Number total = (Number) countQuerry.getSingleResult();
@@ -73,6 +92,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     product.setImage(Common.decompressBytes(product.getImage()));
                 }
             }
+            if (searchTermDTO.getSizeCurrent() != null) {
+                if (searchTermDTO.getSizeCurrent() + lst.size() >= total.longValue()) {
+                    lst.get(0).setIsLoadMore(false);
+                } else {
+                    lst.get(0).setIsLoadMore(true);
+                }
+            }
         }
         return new PageImpl<>(lst, pageable, total.longValue());
     }
@@ -95,5 +121,44 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             lst.add(product);
         }
         return lst;
+    }
+
+    @Override
+    public List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID) {
+        StringBuilder sql = new StringBuilder();
+        List<ProductDTO> lst = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(0).append(" order by date desc limit 6) ");
+        params.put("idBra0", listID.get(0));
+        for (int i = 1; i < listID.size(); i++) {
+            sql.append(" union ");
+            sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(i).append(" order by date desc limit 6) ");
+            params.put("idBra" + i, listID.get(i));
+        }
+        Query query = entityManager.createNativeQuery(sql.toString() , "ProductDTOForWelcome");
+        Common.setParams(query, params);
+        lst = query.getResultList();
+        for (ProductDTO product: lst) {
+            if (product.getImage() != null && product.getImage().length > 0) {
+                product.setImage(Common.decompressBytes(product.getImage()));
+            }
+        }
+        return lst;
+    }
+
+    @Override
+    public ProductDTO findOneById(Long id) {
+        StringBuilder sql = new StringBuilder();
+        Map<String, Object> params = new HashMap<>();
+        sql.append(" From Product where id = :id ");
+        params.put("id", id);
+        Query query = entityManager.createNativeQuery("SELECT id, namePro, price, idCat, idBra, description, " +
+                " screen,  os, ram, battery, date, image, status" + sql.toString() , "ProductDTO");
+        Common.setParams(query, params);
+        ProductDTO productDTO = (ProductDTO) query.getSingleResult();
+        if (productDTO.getImage() != null && productDTO.getImage().length > 0) {
+            productDTO.setImage(Common.decompressBytes(productDTO.getImage()));
+        }
+        return productDTO;
     }
 }

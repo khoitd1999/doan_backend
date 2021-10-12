@@ -69,4 +69,13 @@ public class ProductDTO implements Serializable {
         this.idBra = idBra;
         this.description = description;
     }
+
+    public ProductDTO(Long id, String namePro, Double price, Long idCat, Long idBra, byte[] image) {
+        this.id = id;
+        this.namePro = namePro;
+        this.price = price;
+        this.idCat = idCat;
+        this.idBra = idBra;
+        this.image = image;
+    }
 }

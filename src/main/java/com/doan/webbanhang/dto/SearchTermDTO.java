@@ -15,4 +15,6 @@ public class SearchTermDTO {
     private Integer idBra;
     private Integer idEmp;
     private Integer idWar;
+    private Integer sizeCurrent;
+    private Integer priceFilter;
 }

@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Result<T> {
     private String message;
+    private Boolean isLoadMore;
     private T body;
 }

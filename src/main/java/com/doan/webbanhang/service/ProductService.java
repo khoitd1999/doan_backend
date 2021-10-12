@@ -1,7 +1,9 @@
 package com.doan.webbanhang.service;
 
+import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.Area;
+import com.doan.webbanhang.entity.Brand;
 import com.doan.webbanhang.entity.Product;
 import com.doan.webbanhang.entity.WareHouse;
 import org.springframework.data.domain.Page;
@@ -14,9 +16,15 @@ import java.util.List;
 public interface ProductService {
     List<Object> getBrandAndCategory();
 
+    List<Brand> getBrand(Long idCat);
+
     Product save(Product product, MultipartFile multipartFile) throws IOException;
 
     Page<Product> loadAllData(SearchTermDTO searchTermDTO, Pageable pageable);
 
     List<Product> loadAll();
+
+    List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID);
+
+    ProductDTO findById(Long id);
 }

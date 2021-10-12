@@ -1,6 +1,7 @@
 package com.doan.webbanhang.service.impl;
 
 
+import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.*;
 import com.doan.webbanhang.repository.*;
@@ -40,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
         resObjects.add(categories);
         resObjects.add(brand);
         return resObjects;
+    }
+
+    public List<Brand> getBrand(Long idCat) {
+        return brandRepository.getBrand(idCat);
     }
 
     public Product save(Product product, MultipartFile multipartFile) throws IOException {
@@ -85,5 +90,15 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> loadAll() {
         return productRepository.loadAllDataForReceipt();
+    }
+
+    @Override
+    public List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID) {
+        return productRepository.loadProductDefaultForWelcome(listID);
+    }
+
+    @Override
+    public ProductDTO findById(Long id) {
+        return productRepository.findOneById(id);
     }
 }
