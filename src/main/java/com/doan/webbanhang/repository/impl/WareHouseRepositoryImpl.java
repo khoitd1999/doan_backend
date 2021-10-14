@@ -1,6 +1,7 @@
 package com.doan.webbanhang.repository.impl;
 
 import com.doan.webbanhang.dto.SearchTermDTO;
+import com.doan.webbanhang.dto.WarehouseDTO;
 import com.doan.webbanhang.entity.Area;
 import com.doan.webbanhang.entity.WareHouse;
 import com.doan.webbanhang.repository.WareHouseRepositoryCustom;
@@ -42,5 +43,20 @@ public class WareHouseRepositoryImpl implements WareHouseRepositoryCustom {
             lst = query.getResultList();
         }
         return new PageImpl<>(lst, pageable, total.longValue());
+    }
+
+    @Override
+    public List<WarehouseDTO> loadWarehouseHaveProduct(SearchTermDTO searchTermDTO) {
+        StringBuilder sql = new StringBuilder();
+        List<WarehouseDTO> lst = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        sql.append(" select w.id, w.address, i.idPro idProduct from warehouse w " +
+                " join inventory i on w.id = i.idWar " +
+                " where w.idPro = :idProvince and i.idPro in :listID and quantity > 0 ");
+        params.put("idProvince", searchTermDTO.getCodeProvince());
+        params.put("listID", searchTermDTO.getListID());
+        Query query = entityManager.createNativeQuery(sql.toString(), "WarehouseDTO");
+        Common.setParams(query, params);
+        return query.getResultList();
     }
 }

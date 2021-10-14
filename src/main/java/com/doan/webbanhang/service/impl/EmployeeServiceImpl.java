@@ -25,8 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public Employee checkLogin(String username, String password) {
-        Employee employee = employeeRepository.checkLogin(username, password);
+    public Employee checkLoginAdmin(String username, String password) {
+        Employee employee = employeeRepository.checkLoginAdmin(username, password);
         Employee tmp = new Employee();
         if (employee != null) {
             tmp.setId(employee.getId());

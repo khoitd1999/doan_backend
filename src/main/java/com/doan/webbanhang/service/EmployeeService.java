@@ -10,5 +10,5 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface EmployeeService {
-    Employee checkLogin(String username, String password);
+    Employee checkLoginAdmin(String username, String password);
 }

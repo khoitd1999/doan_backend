@@ -17,16 +17,20 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class WarehouseReceiptServiceImpl implements WareHouseReceiptService {
     private final WareHouseRepository wareHouseRepository;
     private final EmployeeRepository employeeRepository;
-
     @Autowired
     private WarehouseReceiptRepository warehouseReceiptRepository;
+    @Autowired
+    private InventoryRepository inventoryRepository;
 
     public WarehouseReceiptServiceImpl(WareHouseRepository wareHouseRepository,
                                        EmployeeRepository employeeRepository) {
@@ -58,6 +62,40 @@ public class WarehouseReceiptServiceImpl implements WareHouseReceiptService {
             n.setId(null);
         });
         wareHouseReceipt = warehouseReceiptRepository.save(wareHouseReceipt);
+        // lưu hàng tồn kho
+        List<WareHouseReceipt> wareHouseReceipts = warehouseReceiptRepository.loadWarehouseReceiptByIdWar(wareHouseReceipt.getIdWar());
+        List<WareHouseReceiptDetail> wareHouseReceiptDetails = new ArrayList<>();
+        for (int i = 0; i < wareHouseReceipts.size(); i++) {
+            for (int j = 0; j < wareHouseReceipts.get(i).getWareHouseReceiptDetails().size(); j++) {
+                wareHouseReceipts.get(i).getWareHouseReceiptDetails().get(j).setType(wareHouseReceipts.get(i).getType());
+                wareHouseReceiptDetails.add(wareHouseReceipts.get(i).getWareHouseReceiptDetails().get(j));
+            }
+        }
+        Map<Long, Inventory> maps = new HashMap<>();
+        for (int i = 0; i < wareHouseReceiptDetails.size(); i++) {
+            if (maps.containsKey(wareHouseReceiptDetails.get(i).getIdPro())) {
+                Inventory inventory = maps.get(wareHouseReceiptDetails.get(i).getIdPro());
+                if (wareHouseReceiptDetails.get(i).getType() == 1) {
+                    inventory.setQuantity(inventory.getQuantity() + wareHouseReceiptDetails.get(i).getQuantity());
+                } else {
+                    inventory.setQuantity(inventory.getQuantity() - wareHouseReceiptDetails.get(i).getQuantity());
+                }
+                maps.put(inventory.getIdPro(), inventory);
+            } else {
+                Inventory inventory = new Inventory();
+                inventory.setIdWar(wareHouseReceipt.getIdWar());
+                inventory.setIdPro(wareHouseReceiptDetails.get(i).getIdPro());
+                inventory.setNamePro(wareHouseReceiptDetails.get(i).getNamePro());
+                if (wareHouseReceiptDetails.get(i).getType() == 1) {
+                    inventory.setQuantity(wareHouseReceiptDetails.get(i).getQuantity());
+                } else {
+                    inventory.setQuantity(-wareHouseReceiptDetails.get(i).getQuantity());
+                }
+                maps.put(inventory.getIdPro(), inventory);
+            }
+        }
+        inventoryRepository.removeInventoriesByIdWar(wareHouseReceipt.getIdWar());
+        inventoryRepository.saveAll(new ArrayList<>(maps.values()));
         return wareHouseReceipt;
     }
 

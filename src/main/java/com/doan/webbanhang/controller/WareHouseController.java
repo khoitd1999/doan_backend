@@ -2,6 +2,7 @@ package com.doan.webbanhang.controller;
 
 import com.doan.webbanhang.dto.Result;
 import com.doan.webbanhang.dto.SearchTermDTO;
+import com.doan.webbanhang.dto.WarehouseDTO;
 import com.doan.webbanhang.entity.Area;
 import com.doan.webbanhang.entity.WareHouse;
 import com.doan.webbanhang.service.WareHouseService;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,30 @@ public class WareHouseController {
             result.setBody(list);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/load-warehouse")
+    public ResponseEntity<List<WarehouseDTO>> loadWarehouse(@RequestParam String searchTerm) throws JsonProcessingException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SearchTermDTO searchTermDTO = objectMapper.readValue(searchTerm, SearchTermDTO.class);
+            List<WarehouseDTO> page = wareHouseService.loadWarehouse(searchTermDTO);
+            return new ResponseEntity<>(page, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/calculate-fee")
+    public ResponseEntity<WarehouseDTO> calculateFee(@RequestParam String searchTerm) throws IOException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SearchTermDTO searchTermDTO = objectMapper.readValue(searchTerm, SearchTermDTO.class);
+            WarehouseDTO page = wareHouseService.calculateFee(searchTermDTO);
+            return new ResponseEntity<>(page, HttpStatus.OK);
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

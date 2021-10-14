@@ -16,4 +16,4 @@ spring:
                 event:
                     merge:
                         entity_copy_observer: allow #fix bug : Multiple represent in same entity
-key: AIzaSyD_qbY0HwQaGA9tbMkOIP_4Mq4wvjZ_B14
+

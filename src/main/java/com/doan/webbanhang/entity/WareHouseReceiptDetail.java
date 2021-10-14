@@ -43,4 +43,7 @@ public class WareHouseReceiptDetail implements Serializable {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    @Transient
+    private Integer type;
 }
