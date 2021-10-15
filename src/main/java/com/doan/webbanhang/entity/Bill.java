@@ -12,6 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -46,8 +48,14 @@ public class Bill implements Serializable {
     @Column(name = "namecli")
     private String nameCli;
 
+    @Column(name = "idcli")
+    private Long idCli;
+
     @Column(name = "addressclient")
     private String addressClient;
+
+    @Column(name = "idwar")
+    private Long idWar;
 
     @Column(name = "addresswarehouse")
     private String addressWarehouse;
@@ -60,4 +68,8 @@ public class Bill implements Serializable {
 
     @Column(name = "status")
     private Integer status;
+
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "idbil")
+    private List<Cart> carts = new ArrayList<>();
 }

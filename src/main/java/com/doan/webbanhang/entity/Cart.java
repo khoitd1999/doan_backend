@@ -28,9 +28,6 @@ public class Cart implements Serializable {
     @Column(name = "idbil")
     private Long idBil;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "quantity")
     private Integer quantity;
 

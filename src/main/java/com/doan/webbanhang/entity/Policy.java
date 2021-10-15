@@ -22,7 +22,7 @@ public class Policy implements Serializable {
     @Column(name = "fromdis")
     private Integer fromDis;
 
-    @Column(name = "toDis")
+    @Column(name = "todis")
     private Integer toDis;
 
     @Column(name = "amount")

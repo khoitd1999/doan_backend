@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class API {
 
-    @Value(value = "key")
+    @Value(value = "${key}")
     private String key;
 
     @GetMapping(path = "/geocode")

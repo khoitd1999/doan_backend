@@ -113,14 +113,10 @@ public class WareHouseServiceImpl implements WareHouseService {
 
     @Override
     public WarehouseDTO calculateFee(SearchTermDTO searchTermDTO) throws IOException {
-        String addressClient = searchTermDTO.getCodeWard() + " " + searchTermDTO.getCodeDistrict() + " " + searchTermDTO.getCodeProvince();
         List<WarehouseDTO> warehouseInProvinces = this.wareHouseRepository.loadWarehouseHaveProduct(searchTermDTO);
         if (warehouseInProvinces.size() == 0) {
             return new WarehouseDTO();
         }
-//        Map<Long, List<WarehouseDTO>> mapsFilter = warehouseInProvinces.stream().collect(Collectors.groupingBy(WarehouseDTO::getId));
-//        List<WarehouseDTO> warehouseDTOS = mapsFilter.
-
         Map<String, List<WarehouseDTO>> mapAddress = new HashMap<>();
         List<String> addressWareHouses = new ArrayList<>();
         for (WarehouseDTO tmp: warehouseInProvinces) {
@@ -136,7 +132,7 @@ public class WareHouseServiceImpl implements WareHouseService {
             }
         }
         OkHttpClient client = new OkHttpClient().newBuilder().build();
-        String origin = URLEncoder.encode(addressClient, "UTF-8");
+        String origin = URLEncoder.encode(searchTermDTO.getAddressSearch(), "UTF-8");
         StringBuilder sb = new StringBuilder();
         sb.append(URLEncoder.encode(addressWareHouses.get(0), "UTF-8"));
         for (int i = 1; i < addressWareHouses.size(); i++) {
@@ -149,7 +145,120 @@ public class WareHouseServiceImpl implements WareHouseService {
                 .build();
         ResponseBody responseBody = client.newCall(request).execute().body();
         ObjectMapper objectMapper = new ObjectMapper();
-        GoogleAPI googleAPI = objectMapper.readValue(responseBody.string(), GoogleAPI.class);
+        // google 1
+//        GoogleAPI googleAPI = objectMapper.readValue(responseBody.string(), GoogleAPI.class);
+
+        // goolge 2: TH 1 cửa hàng tất cả sản phẩm
+//        GoogleAPI googleAPI = objectMapper.readValue("{\n" +
+//                "   \"destination_addresses\" : [\n" +
+//                "      \"Ngõ 3 Hoàng Đạo Thành, Kim Giang, Thanh Xuân, Hà Nội, Vietnam\",\n" +
+//                "      \"Đường Khương Đình, Khương Đình, Thanh Xuân, Hà Nội, Vietnam\"\n" +
+//                "   ],\n" +
+//                "   \"origin_addresses\" : [ \"Khương Mai, Thanh Xuân, Hanoi, Vietnam\" ],\n" +
+//                "   \"rows\" : [\n" +
+//                "      {\n" +
+//                "         \"elements\" : [\n" +
+//                "            {\n" +
+//                "               \"distance\" : {\n" +
+//                "                  \"text\" : \"3.3 km\",\n" +
+//                "                  \"value\" : 3254\n" +
+//                "               },\n" +
+//                "               \"duration\" : {\n" +
+//                "                  \"text\" : \"12 mins\",\n" +
+//                "                  \"value\" : 691\n" +
+//                "               },\n" +
+//                "               \"status\" : \"OK\"\n" +
+//                "            },\n" +
+//                "            {\n" +
+//                "               \"distance\" : {\n" +
+//                "                  \"text\" : \"3.7 km\",\n" +
+//                "                  \"value\" : 3734\n" +
+//                "               },\n" +
+//                "               \"duration\" : {\n" +
+//                "                  \"text\" : \"10 mins\",\n" +
+//                "                  \"value\" : 581\n" +
+//                "               },\n" +
+//                "               \"status\" : \"OK\"\n" +
+//                "            }\n" +
+//                "         ]\n" +
+//                "      }\n" +
+//                "   ],\n" +
+//                "   \"status\" : \"OK\"\n" +
+//                "}\n{\n" +
+//                "   \"destination_addresses\" : [\n" +
+//                "      \"Ngõ 3 Hoàng Đạo Thành, Kim Giang, Thanh Xuân, Hà Nội, Vietnam\",\n" +
+//                "      \"Đường Khương Đình, Khương Đình, Thanh Xuân, Hà Nội, Vietnam\"\n" +
+//                "   ],\n" +
+//                "   \"origin_addresses\" : [ \"Khương Mai, Thanh Xuân, Hanoi, Vietnam\" ],\n" +
+//                "   \"rows\" : [\n" +
+//                "      {\n" +
+//                "         \"elements\" : [\n" +
+//                "            {\n" +
+//                "               \"distance\" : {\n" +
+//                "                  \"text\" : \"3.3 km\",\n" +
+//                "                  \"value\" : 3254\n" +
+//                "               },\n" +
+//                "               \"duration\" : {\n" +
+//                "                  \"text\" : \"12 mins\",\n" +
+//                "                  \"value\" : 691\n" +
+//                "               },\n" +
+//                "               \"status\" : \"OK\"\n" +
+//                "            },\n" +
+//                "            {\n" +
+//                "               \"distance\" : {\n" +
+//                "                  \"text\" : \"3.7 km\",\n" +
+//                "                  \"value\" : 3734\n" +
+//                "               },\n" +
+//                "               \"duration\" : {\n" +
+//                "                  \"text\" : \"10 mins\",\n" +
+//                "                  \"value\" : 581\n" +
+//                "               },\n" +
+//                "               \"status\" : \"OK\"\n" +
+//                "            }\n" +
+//                "         ]\n" +
+//                "      }\n" +
+//                "   ],\n" +
+//                "   \"status\" : \"OK\"\n" +
+//                "}\n", GoogleAPI.class);
+
+        // google 3: TH cửa hàng không có đủ hàng
+        GoogleAPI googleAPI = objectMapper.readValue("{\n" +
+                "   \"destination_addresses\" : [\n" +
+                "      \"Ngõ 3 Hoàng Đạo Thành, Kim Giang, Thanh Xuân, Hà Nội, Vietnam\",\n" +
+                "      \"Đường Khương Đình, Khương Đình, Thanh Xuân, Hà Nội, Vietnam\"\n" +
+                "   ],\n" +
+                "   \"origin_addresses\" : [ \"Ha Dinh, Thanh Xuân, Hanoi, Vietnam\" ],\n" +
+                "   \"rows\" : [\n" +
+                "      {\n" +
+                "         \"elements\" : [\n" +
+                "            {\n" +
+                "               \"distance\" : {\n" +
+                "                  \"text\" : \"1.1 km\",\n" +
+                "                  \"value\" : 1121\n" +
+                "               },\n" +
+                "               \"duration\" : {\n" +
+                "                  \"text\" : \"4 mins\",\n" +
+                "                  \"value\" : 217\n" +
+                "               },\n" +
+                "               \"status\" : \"OK\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "               \"distance\" : {\n" +
+                "                  \"text\" : \"1.2 km\",\n" +
+                "                  \"value\" : 1236\n" +
+                "               },\n" +
+                "               \"duration\" : {\n" +
+                "                  \"text\" : \"4 mins\",\n" +
+                "                  \"value\" : 227\n" +
+                "               },\n" +
+                "               \"status\" : \"OK\"\n" +
+                "            }\n" +
+                "         ]\n" +
+                "      }\n" +
+                "   ],\n" +
+                "   \"status\" : \"OK\"\n" +
+                "}", GoogleAPI.class);
+
         List<Elements> kcClientToWareHouse = googleAPI.getRows().get(0).getElements();
         int min = Integer.MAX_VALUE;
         int imin = 0;
@@ -171,18 +280,25 @@ public class WareHouseServiceImpl implements WareHouseService {
         warehouseDTO.setAvailable(mapAddress.get(addressWareHouses.get(imin)).stream().map(WarehouseDTO::getIdProduct).collect(Collectors.toSet()));
         warehouseDTO.setUnavailable(searchTermDTO.getListID().stream().
                 filter(n -> !warehouseDTO.getAvailable().contains(n)).collect(Collectors.toList()));
-        List<Policy> policies = policyRepository.findAll().stream().sorted(Comparator.comparingInt(Policy::getFromDis)).collect(Collectors.toList());
+        List<Policy> policies = policyRepository.getAll();
+        policies = policies.stream().sorted(Comparator.comparingInt(Policy::getFromDis)).collect(Collectors.toList());
         double dis = Double.parseDouble(km.split(" ")[0]);
-        int ipol = 0;
-        for (int i = 1; i < policies.size(); i++) {
+        int ipol = -1;
+        for (int i = 0; i < policies.size(); i++) {
             if (dis >= policies.get(i).getFromDis()) {
                 ipol = i;
             } else {
                 break;
             }
         }
-        warehouseDTO.setFee(policies.get(ipol).getAmount());
-        warehouseDTO.setIdPol(policies.get(ipol).getId());
+        if (ipol > 0) {
+            warehouseDTO.setFee(policies.get(ipol).getAmount());
+            warehouseDTO.setIdPol(policies.get(ipol).getId());
+        } else {
+            warehouseDTO.setFee((double) 0);
+            warehouseDTO.setIdPol(null);
+        }
+
         return warehouseDTO;
     }
 }
