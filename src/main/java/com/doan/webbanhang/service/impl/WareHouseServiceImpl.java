@@ -131,19 +131,19 @@ public class WareHouseServiceImpl implements WareHouseService {
                 mapAddress.put(tmp.getAddress(), value);
             }
         }
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
-        String origin = URLEncoder.encode(searchTermDTO.getAddressSearch(), "UTF-8");
-        StringBuilder sb = new StringBuilder();
-        sb.append(URLEncoder.encode(addressWareHouses.get(0), "UTF-8"));
-        for (int i = 1; i < addressWareHouses.size(); i++) {
-            String des = URLEncoder.encode(addressWareHouses.get(i), "UTF-8");
-            sb.append("%7C").append(des);
-        }
-        Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin +"&destinations=" + sb.toString() + "&key=" + key)
-                .method("GET", null)
-                .build();
-        ResponseBody responseBody = client.newCall(request).execute().body();
+//        OkHttpClient client = new OkHttpClient().newBuilder().build();
+//        String origin = URLEncoder.encode(searchTermDTO.getAddressSearch(), "UTF-8");
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(URLEncoder.encode(addressWareHouses.get(0), "UTF-8"));
+//        for (int i = 1; i < addressWareHouses.size(); i++) {
+//            String des = URLEncoder.encode(addressWareHouses.get(i), "UTF-8");
+//            sb.append("%7C").append(des);
+//        }
+//        Request request = new Request.Builder()
+//                .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin +"&destinations=" + sb.toString() + "&key=" + key)
+//                .method("GET", null)
+//                .build();
+//        ResponseBody responseBody = client.newCall(request).execute().body();
         ObjectMapper objectMapper = new ObjectMapper();
         // google 1
 //        GoogleAPI googleAPI = objectMapper.readValue(responseBody.string(), GoogleAPI.class);
@@ -291,7 +291,7 @@ public class WareHouseServiceImpl implements WareHouseService {
                 break;
             }
         }
-        if (ipol > 0) {
+        if (ipol >= 0) {
             warehouseDTO.setFee(policies.get(ipol).getAmount());
             warehouseDTO.setIdPol(policies.get(ipol).getId());
         } else {
