@@ -32,7 +32,7 @@ public class BillController {
     @PostMapping("/save")
     public ResponseEntity<Result<Bill>> save(@RequestBody Bill bill) {
         Result<Bill> result = new Result<>();
-        result.setBody(billService.save(bill));
+//        result.setBody(billService.save(bill));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
