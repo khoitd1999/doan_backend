@@ -1,5 +1,9 @@
 package com.doan.webbanhang.entity;
 
+import com.doan.webbanhang.dto.BillDTO;
+import com.doan.webbanhang.dto.CartDTO;
+import com.doan.webbanhang.dto.WarehouseReceiptDTO;
+import com.doan.webbanhang.dto.WarehouseReceiptDetailDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -20,6 +24,42 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "bill")
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "BillDTO",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = BillDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = Long.class),
+                                        @ColumnResult(name = "totalAmount", type = Double.class),
+                                        @ColumnResult(name = "fromDate", type = LocalDate.class),
+                                        @ColumnResult(name = "addressClient", type = String.class),
+                                        @ColumnResult(name = "addressWarehouse", type = String.class),
+                                        @ColumnResult(name = "typeShip", type = Integer.class),
+                                        @ColumnResult(name = "status", type = Integer.class),
+                                }
+                        )
+                }
+        ),
+        @SqlResultSetMapping(
+                name = "CartDTO",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = CartDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = Long.class),
+                                        @ColumnResult(name = "idPro", type = Long.class),
+                                        @ColumnResult(name = "namePro", type = String.class),
+                                        @ColumnResult(name = "image", type = byte[].class),
+                                        @ColumnResult(name = "quantity", type = Integer.class),
+                                        @ColumnResult(name = "price", type = Double.class),
+                                        @ColumnResult(name = "amount", type = Double.class),
+                                }
+                        )
+                }
+        ),
+})
 public class Bill implements Serializable {
     private static final long serialVersionUID = 1L;
 

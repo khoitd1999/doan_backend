@@ -3,8 +3,11 @@ package com.doan.webbanhang.repository;
 import com.doan.webbanhang.entity.Bill;
 import com.doan.webbanhang.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface BillRepository extends JpaRepository<Bill, Long> {
-
+public interface BillRepository extends JpaRepository<Bill, Long>, BillRepositoryCustom {
+    @Modifying
+    @Query(value = "update Bill set status = ?1 where id = ?2 ", nativeQuery = true)
+    void cancelOrder(Integer status, Long id);
 }

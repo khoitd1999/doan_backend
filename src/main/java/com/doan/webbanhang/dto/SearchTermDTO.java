@@ -23,4 +23,6 @@ public class SearchTermDTO {
     private String codeProvince;
     private String codeDistrict;
     private String codeWard;
+    private Long idCli;
+    private Long idBil;
 }
