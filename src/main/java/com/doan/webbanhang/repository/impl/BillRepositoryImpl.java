@@ -31,8 +31,23 @@ public class BillRepositoryImpl implements BillRepositoryCustom {
         StringBuilder sql = new StringBuilder();
         List<BillDTO> billDTOS = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
-        sql.append(" from bill where idCli = :idCli ");
-        params.put("idCli", searchTermDTO.getIdCli());
+        sql.append(" from bill where 1 = 1 ");
+        if (searchTermDTO.getIdCli() != null) {
+            sql.append(" and idCli = :idCli ");
+            params.put("idCli", searchTermDTO.getIdCli());
+        }
+        if (searchTermDTO.getFromDateSearch() != null) {
+            sql.append(" and fromDate = :fromDate ");
+            params.put("fromDate", searchTermDTO.getFromDateSearch());
+        }
+        if (searchTermDTO.getTypeShipSearch() != null) {
+            sql.append(" and typeShip = :typeShip ");
+            params.put("typeShip", searchTermDTO.getTypeShipSearch());
+        }
+        if (searchTermDTO.getStatusSearch() != null) {
+            sql.append(" and status = :status ");
+            params.put("status", searchTermDTO.getStatusSearch());
+        }
         Query countQuery = entityManager.createNativeQuery("Select Count(1)" + sql.toString());
         Common.setParams(countQuery, params);
         Number total = (Number) countQuery.getSingleResult();
