@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface InventoryRepository extends JpaRepository<Inventory, Long> {
+public interface InventoryRepository extends JpaRepository<Inventory, Long>, InventoryRepositoryCustom {
 
     @Query(value = "select * from Inventory where idwar = ?1 ", nativeQuery = true)
     List<Inventory> getInventoriesByIdWar(Long idWar);

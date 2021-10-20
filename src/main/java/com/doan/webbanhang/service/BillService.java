@@ -6,6 +6,7 @@ import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.dto.WarehouseReceiptDTO;
 import com.doan.webbanhang.entity.Bill;
 import com.doan.webbanhang.entity.Employee;
+import com.doan.webbanhang.entity.WareHouseReceipt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface BillService {
     Page<BillDTO> loadPagination(SearchTermDTO searchTermDTO, Pageable pageable);
 
     Page<CartDTO> loadDetailPagination(SearchTermDTO searchTermDTO, Pageable pageable);
+
+    Bill findOne(Long id);
 }

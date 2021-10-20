@@ -73,6 +73,9 @@ public class WareHouseReceipt implements Serializable {
     @Column(name = "idwar")
     private Long idWar;
 
+    @Column(name = "idbil")
+    private Long idBil;
+
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -81,6 +84,9 @@ public class WareHouseReceipt implements Serializable {
 
     @Column(name = "totalamount")
     private Double totalAmount;
+
+    @Column(name = "fee")
+    private Double fee;
 
     @Column(name = "type")
     private Integer type;

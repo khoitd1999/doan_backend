@@ -31,28 +31,28 @@ public class BillRepositoryImpl implements BillRepositoryCustom {
         StringBuilder sql = new StringBuilder();
         List<BillDTO> billDTOS = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
-        sql.append(" from bill where 1 = 1 ");
+        sql.append(" from bill b left join warehousereceipt w on b.id = w.idBil where 1 = 1 ");
         if (searchTermDTO.getIdCli() != null) {
-            sql.append(" and idCli = :idCli ");
+            sql.append(" and b.idCli = :idCli ");
             params.put("idCli", searchTermDTO.getIdCli());
         }
         if (searchTermDTO.getFromDateSearch() != null) {
-            sql.append(" and fromDate = :fromDate ");
+            sql.append(" and b.fromDate = :fromDate ");
             params.put("fromDate", searchTermDTO.getFromDateSearch());
         }
         if (searchTermDTO.getTypeShipSearch() != null) {
-            sql.append(" and typeShip = :typeShip ");
+            sql.append(" and b.typeShip = :typeShip ");
             params.put("typeShip", searchTermDTO.getTypeShipSearch());
         }
         if (searchTermDTO.getStatusSearch() != null) {
-            sql.append(" and status = :status ");
+            sql.append(" and b.status = :status ");
             params.put("status", searchTermDTO.getStatusSearch());
         }
         Query countQuery = entityManager.createNativeQuery("Select Count(1)" + sql.toString());
         Common.setParams(countQuery, params);
         Number total = (Number) countQuery.getSingleResult();
         if (total.longValue() > 0) {
-            Query query = entityManager.createNativeQuery("Select id, totalAmount, fromDate, addressClient, addressWarehouse, typeShip, status " + sql.toString() + " order by fromDate desc ", "BillDTO");
+            Query query = entityManager.createNativeQuery("Select b.id, b.totalAmount, b.fromDate, b.addressClient, b.addressWarehouse, b.typeShip, b.status, w.id idWare " + sql.toString() + " order by fromDate desc ", "BillDTO");
             Common.setParamsWithPageable(query, params, pageable, total);
             billDTOS = query.getResultList();
         }

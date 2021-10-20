@@ -41,6 +41,11 @@ public class WarehouseReceiptRepositoryImpl implements WarehouseReceiptRepositor
             sql.append(" and w.idWar = :idWar");
             params.put("idWar", searchTermDTO.getIdWar());
         }
+        if (searchTermDTO.getType() != null && searchTermDTO.getType() == 1) {
+            sql.append(" and w.type = 1");
+        } else if (searchTermDTO.getType() != null && searchTermDTO.getType() == 2) {
+            sql.append(" and w.type = 2");
+        }
         Query countQuery = entityManager.createNativeQuery("Select Count(1)" + sql.toString());
         Common.setParams(countQuery, params);
         Number total = (Number) countQuery.getSingleResult();

@@ -54,6 +54,17 @@ public class WarehouseReceiptController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping("/create-export")
+    public ResponseEntity<Result<WareHouseReceipt>> createExport(@RequestBody WareHouseReceipt wareHouseReceipt) {
+        Result<WareHouseReceipt> result = new Result<>();
+        wareHouseReceipt = wareHouseReceiptService.createExport(wareHouseReceipt);
+        if (wareHouseReceipt == null) {
+            result.setMessage("Tên đơn hàng đã tồn tại");
+        }
+        result.setBody(wareHouseReceipt);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/pagination")
     public ResponseEntity<Result<List<Object>>> loadDataAll(Pageable pageable, @RequestParam String searchTerm) {
         try {

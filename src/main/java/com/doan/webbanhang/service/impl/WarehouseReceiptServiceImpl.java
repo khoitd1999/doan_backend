@@ -31,6 +31,8 @@ public class WarehouseReceiptServiceImpl implements WareHouseReceiptService {
     private WarehouseReceiptRepository warehouseReceiptRepository;
     @Autowired
     private InventoryRepository inventoryRepository;
+    @Autowired
+    private BillRepository billRepository;
 
     public WarehouseReceiptServiceImpl(WareHouseRepository wareHouseRepository,
                                        EmployeeRepository employeeRepository) {
@@ -58,6 +60,62 @@ public class WarehouseReceiptServiceImpl implements WareHouseReceiptService {
                 return null;
             }
         }
+        wareHouseReceipt.getWareHouseReceiptDetails().forEach(n -> {
+            n.setId(null);
+        });
+        wareHouseReceipt = warehouseReceiptRepository.save(wareHouseReceipt);
+        // lưu hàng tồn kho
+        List<WareHouseReceipt> wareHouseReceipts = warehouseReceiptRepository.loadWarehouseReceiptByIdWar(wareHouseReceipt.getIdWar());
+        List<WareHouseReceiptDetail> wareHouseReceiptDetails = new ArrayList<>();
+        for (int i = 0; i < wareHouseReceipts.size(); i++) {
+            for (int j = 0; j < wareHouseReceipts.get(i).getWareHouseReceiptDetails().size(); j++) {
+                wareHouseReceipts.get(i).getWareHouseReceiptDetails().get(j).setType(wareHouseReceipts.get(i).getType());
+                wareHouseReceiptDetails.add(wareHouseReceipts.get(i).getWareHouseReceiptDetails().get(j));
+            }
+        }
+        Map<Long, Inventory> maps = new HashMap<>();
+        for (int i = 0; i < wareHouseReceiptDetails.size(); i++) {
+            if (maps.containsKey(wareHouseReceiptDetails.get(i).getIdPro())) {
+                Inventory inventory = maps.get(wareHouseReceiptDetails.get(i).getIdPro());
+                if (wareHouseReceiptDetails.get(i).getType() == 1) {
+                    inventory.setQuantity(inventory.getQuantity() + wareHouseReceiptDetails.get(i).getQuantity());
+                } else {
+                    inventory.setQuantity(inventory.getQuantity() - wareHouseReceiptDetails.get(i).getQuantity());
+                }
+                maps.put(inventory.getIdPro(), inventory);
+            } else {
+                Inventory inventory = new Inventory();
+                inventory.setIdWar(wareHouseReceipt.getIdWar());
+                inventory.setIdPro(wareHouseReceiptDetails.get(i).getIdPro());
+                inventory.setNamePro(wareHouseReceiptDetails.get(i).getNamePro());
+                if (wareHouseReceiptDetails.get(i).getType() == 1) {
+                    inventory.setQuantity(wareHouseReceiptDetails.get(i).getQuantity());
+                } else {
+                    inventory.setQuantity(-wareHouseReceiptDetails.get(i).getQuantity());
+                }
+                maps.put(inventory.getIdPro(), inventory);
+            }
+        }
+        inventoryRepository.removeInventoriesByIdWar(wareHouseReceipt.getIdWar());
+        inventoryRepository.saveAll(new ArrayList<>(maps.values()));
+        return wareHouseReceipt;
+    }
+
+    public WareHouseReceipt createExport(WareHouseReceipt wareHouseReceipt) {
+//        WareHouseReceipt check = warehouseReceiptRepository.findByCode(wareHouseReceipt.getCode());
+//        if (wareHouseReceipt.getId() != null) {
+//            if (check != null && check.getId() != null && !check.getId().equals(wareHouseReceipt.getId())) {
+//                return null;
+//            }
+//        } else {
+//            if (check != null && check.getId() != null) {
+//                return null;
+//            }
+//        }
+        Bill bill = billRepository.findById(wareHouseReceipt.getIdBil()).get();
+        bill.setToDate(wareHouseReceipt.getDate());
+        bill.setStatus(1);
+        billRepository.updateOrder(bill.getStatus(), bill.getToDate(), bill.getId());
         wareHouseReceipt.getWareHouseReceiptDetails().forEach(n -> {
             n.setId(null);
         });

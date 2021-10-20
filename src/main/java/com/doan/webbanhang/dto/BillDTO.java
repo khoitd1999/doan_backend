@@ -23,8 +23,9 @@ public class BillDTO {
     private Integer typeShip;
     private Integer idPol;
     private Integer status;
+    private Long idWare;
 
-    public BillDTO(Long id, Double totalAmount, LocalDate fromDate, String addressClient, String addressWarehouse, Integer typeShip, Integer status) {
+    public BillDTO(Long id, Double totalAmount, LocalDate fromDate, String addressClient, String addressWarehouse, Integer typeShip, Integer status, Long idWare) {
         this.id = id;
         this.totalAmount = totalAmount;
         this.fromDate = fromDate;
@@ -32,5 +33,6 @@ public class BillDTO {
         this.addressWarehouse = addressWarehouse;
         this.typeShip = typeShip;
         this.status = status;
+        this.idWare = idWare;
     }
 }

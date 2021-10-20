@@ -31,6 +31,8 @@ public class SearchTermDTO {
     private String codeWard;
     private Long idCli;
     private Long idBil;
+    private Integer type;
+    private Long idPro;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)

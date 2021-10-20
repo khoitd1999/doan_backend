@@ -2,6 +2,7 @@ package com.doan.webbanhang.controller;
 
 import com.doan.webbanhang.dto.*;
 import com.doan.webbanhang.entity.Bill;
+import com.doan.webbanhang.entity.WareHouseReceipt;
 import com.doan.webbanhang.service.BillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,17 @@ public class BillController {
             list.add(pageTust.getTotalElements());
             result.setBody(list);
             return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Bill> find(@PathVariable Long id) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Bill bill = billService.findOne(id);
+            return new ResponseEntity<>(bill, HttpStatus.OK);
         } catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

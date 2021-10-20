@@ -15,6 +15,8 @@ public interface WareHouseReceiptService {
 
     WareHouseReceipt save(WareHouseReceipt wareHouseReceipt);
 
+    WareHouseReceipt createExport(WareHouseReceipt wareHouseReceipt);
+
     Page<WarehouseReceiptDTO> loadPagination(SearchTermDTO searchTermDTO, Pageable pageable);
 
     WareHouseReceipt findOne(Long id);

@@ -7,6 +7,7 @@ import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.dto.WarehouseReceiptDTO;
 import com.doan.webbanhang.entity.Bill;
 import com.doan.webbanhang.entity.Employee;
+import com.doan.webbanhang.entity.WareHouseReceipt;
 import com.doan.webbanhang.repository.BillRepository;
 import com.doan.webbanhang.repository.EmployeeRepository;
 import com.doan.webbanhang.service.BillService;
@@ -45,5 +46,10 @@ public class BillServiceImpl implements BillService {
     @Override
     public Page<CartDTO> loadDetailPagination(SearchTermDTO searchTermDTO, Pageable pageable) {
         return billRepository.loadDetailPagination(searchTermDTO, pageable);
+    }
+
+    @Override
+    public Bill findOne(Long id) {
+        return billRepository.findById(id).get();
     }
 }

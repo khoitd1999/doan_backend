@@ -38,6 +38,7 @@ import java.util.List;
                                         @ColumnResult(name = "addressWarehouse", type = String.class),
                                         @ColumnResult(name = "typeShip", type = Integer.class),
                                         @ColumnResult(name = "status", type = Integer.class),
+                                        @ColumnResult(name = "idWare", type = Long.class),
                                 }
                         )
                 }
