@@ -67,7 +67,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         Number total = (Number) countQuerry.getSingleResult();
         if (total.longValue() > 0) {
             Query query = entityManager.createNativeQuery("SELECT id, namePro, price, idCat, idBra, description, " +
-                    "screen,  os, ram, battery, date, image, status" + sql.toString() + " ORDER BY date desc ", "ProductDTO");
+                    "screen,  os, ram, battery, date, image, status, rate" + sql.toString() + " ORDER BY date desc ", "ProductDTO");
             Common.setParamsWithPageable(query, params, pageable, total);
             List<ProductDTO> lst1 = query.getResultList();
             for (ProductDTO t: lst1) {
@@ -153,7 +153,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         sql.append(" From Product where id = :id ");
         params.put("id", id);
         Query query = entityManager.createNativeQuery("SELECT id, namePro, price, idCat, idBra, description, " +
-                " screen,  os, ram, battery, date, image, status" + sql.toString() , "ProductDTO");
+                " screen,  os, ram, battery, date, image, status, rate " + sql.toString() , "ProductDTO");
         Common.setParams(query, params);
         ProductDTO productDTO = (ProductDTO) query.getSingleResult();
         if (productDTO.getImage() != null && productDTO.getImage().length > 0) {

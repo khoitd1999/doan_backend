@@ -2,10 +2,7 @@ package com.doan.webbanhang.service;
 
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
-import com.doan.webbanhang.entity.Area;
-import com.doan.webbanhang.entity.Brand;
-import com.doan.webbanhang.entity.Product;
-import com.doan.webbanhang.entity.WareHouse;
+import com.doan.webbanhang.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,5 +23,9 @@ public interface ProductService {
 
     List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID);
 
+    Double submitComment(Comment comment);
+
     ProductDTO findById(Long id);
+
+    List<Comment> getAllComment(Long id);
 }

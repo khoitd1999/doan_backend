@@ -41,6 +41,7 @@ import java.time.LocalDate;
                                         @ColumnResult(name = "date", type = LocalDate.class),
                                         @ColumnResult(name = "image", type = byte[].class),
                                         @ColumnResult(name = "status", type = Boolean.class),
+                                        @ColumnResult(name = "rate", type = Double.class),
                                 }
                         )
                 }
@@ -123,6 +124,9 @@ public class Product implements Serializable {
 
     @Column(name = "status")
     private Boolean status;
+
+    @Column(name = "rate")
+    private Double rate;
 
     @Transient
     private Boolean isLoadMore;

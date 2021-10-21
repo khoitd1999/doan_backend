@@ -44,8 +44,10 @@ public class ProductDTO implements Serializable {
 
     private Boolean status;
 
+    private Double rate;
+
     public ProductDTO(Long id, String namePro, Double price, Long idCat, Long idBra, String description,
-                      String screen, String os, String ram, String battery, LocalDate date, byte[] image, Boolean status) {
+                      String screen, String os, String ram, String battery, LocalDate date, byte[] image, Boolean status, Double rate) {
         this.id = id;
         this.namePro = namePro;
         this.price = price;
@@ -59,6 +61,7 @@ public class ProductDTO implements Serializable {
         this.date = date;
         this.image = image;
         this.status = status;
+        this.rate = rate;
     }
 
     public ProductDTO(Long id, String namePro, Double price, Long idCat, Long idBra, String description) {

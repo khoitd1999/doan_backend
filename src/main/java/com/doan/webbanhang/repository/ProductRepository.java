@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
     @Query(value = "select * from Product where namePro = ?1", nativeQuery = true)
@@ -27,4 +29,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
             "status = ?11 where id = ?12", nativeQuery = true)
     void updateOne(String namePro, Double price, Long idCat, Long idBra, String description, String screen, String os, String ram, String battery, LocalDate date, Boolean status, Long id);
 
+    @Query(value = "select rate from Comment where idPro = ?1", nativeQuery = true)
+    List<Double> listRate(Long id);
+
+    @Modifying
+    @Query(value = "update Product set rate = ?1 where id = ?2", nativeQuery = true)
+    void updateRate(Double bd, Long id);
 }

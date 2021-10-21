@@ -3,10 +3,7 @@ package com.doan.webbanhang.controller;
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.Result;
 import com.doan.webbanhang.dto.SearchTermDTO;
-import com.doan.webbanhang.entity.Area;
-import com.doan.webbanhang.entity.Brand;
-import com.doan.webbanhang.entity.Product;
-import com.doan.webbanhang.entity.WareHouse;
+import com.doan.webbanhang.entity.*;
 import com.doan.webbanhang.service.ProductService;
 import com.doan.webbanhang.service.WareHouseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -117,6 +114,26 @@ public class ProductController {
         try {
             ProductDTO pageTust = productService.findById(id);
             return new ResponseEntity<>(pageTust, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-all-comment")
+    public ResponseEntity<List<Comment>> getAllComment(@RequestParam Long id) {
+        try {
+            List<Comment> pageTust = productService.getAllComment(id);
+            return new ResponseEntity<>(pageTust, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/submit-comment")
+    public ResponseEntity<Double> submitCommit(@RequestBody Comment comment) {
+        try {
+            Double rs = productService.submitComment(comment);
+            return new ResponseEntity<>(rs, HttpStatus.OK);
         } catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

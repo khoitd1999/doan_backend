@@ -8,6 +8,7 @@ import com.doan.webbanhang.repository.*;
 import com.doan.webbanhang.service.ProductService;
 import com.doan.webbanhang.service.WareHouseService;
 import com.doan.webbanhang.utils.Common;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +29,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public ProductServiceImpl(ProductRepository productRepository,
                               BrandRepository brandRepository,
@@ -73,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
                 product = productRepository.save(product);
             }
         } else {
+            product.setRate((double) 0);
             if (check != null && check.getId() != null) {
                 return null;
             }
@@ -98,7 +106,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Double submitComment(Comment comment) {
+        comment.setDate(LocalDate.now());
+        List<Double> list = productRepository.listRate(comment.getIdPro());
+        double total = list.stream().reduce((double) 0, Double::sum) + comment.getRate();
+        double rateAverage = total / (list.size() + 1);
+        productRepository.updateRate(rateAverage, comment.getIdPro());
+        commentRepository.save(comment);
+        return rateAverage;
+    }
+
+    @Override
     public ProductDTO findById(Long id) {
         return productRepository.findOneById(id);
     }
+
+    @Override
+    public List<Comment> getAllComment(Long id) {
+        return commentRepository.getAllComment(id);
+    }
+
+
 }
