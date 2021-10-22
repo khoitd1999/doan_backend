@@ -43,6 +43,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             sql.append(" and idBra = :idBra");
             params.put("idBra", searchTermDTO.getIdBra());
         }
+        if (searchTermDTO.getNameSearch() != null && !searchTermDTO.getNameSearch().isEmpty()) {
+            sql.append(" and namePro like :nameSearch ");
+            params.put("nameSearch", "%" + searchTermDTO.getNameSearch() + "%");
+        }
         if (searchTermDTO.getPriceFilter() != null) {
             switch (searchTermDTO.getPriceFilter()) {
                 case 1:
