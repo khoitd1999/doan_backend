@@ -28,4 +28,9 @@ public class InventoryServiceImpl implements InventoryService {
     public Page<InventoryDTO> loadPagination(SearchTermDTO searchTermDTO, Pageable pageable) {
         return inventoryRepository.loadPagination(searchTermDTO, pageable);
     }
+
+    @Override
+    public Integer getQuantityInventory(SearchTermDTO searchTermDTO) {
+        return inventoryRepository.getQuantityInventory(searchTermDTO.getCodeProvince());
+    }
 }

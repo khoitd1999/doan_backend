@@ -39,4 +39,16 @@ public class InventoryController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get-quantity")
+    public ResponseEntity<Integer> getQuantityInventory(@RequestParam String searchTerm) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SearchTermDTO searchTermDTO = objectMapper.readValue(searchTerm, SearchTermDTO.class);
+            Integer pageTust = inventoryService.getQuantityInventory(searchTermDTO);
+            return new ResponseEntity<>(pageTust, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

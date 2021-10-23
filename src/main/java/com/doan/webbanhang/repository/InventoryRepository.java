@@ -16,4 +16,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long>, Inv
     @Modifying
     @Query(value = "delete from Inventory where idwar = ?1", nativeQuery = true)
     void removeInventoriesByIdWar(Long idWar);
+
+    @Query(value = "select IFNULL(sum(quantity), 0) quantity from inventory i where idWar in (select id from warehouse w where w.idPro = ?1)", nativeQuery = true)
+    Integer getQuantityInventory(String code);
 }
