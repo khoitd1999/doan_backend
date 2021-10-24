@@ -1,0 +1,11 @@
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (2, 26, 2, 'Laptop Dell Gaming G3 15 i7 10750H/16GB/512GB/6GB GTX1660Ti/120Hz/Win10 (P89F002BWH) ', 10, 31490000, 314900000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (3, 26, 3, 'Điện thoại iPhone 13 Pro Max', 10, 33990000, 339900000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (7, 23, 2, 'Laptop Dell Gaming G3 15 i7 10750H/16GB/512GB/6GB GTX1660Ti/120Hz/Win10 (P89F002BWH) ', 12, 31490000, 377880000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (8, 23, 4, 'Điện thoại Samsung Galaxy Z Flip3 5G 256GB', 20, 25990000, 519800000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (9, 27, 2, 'Laptop Dell Gaming G3 15 i7 10750H/16GB/512GB/6GB GTX1660Ti/120Hz/Win10 (P89F002BWH) ', 12, 31490000, 377880000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (19, 29, 3, 'Điện thoại iPhone 13 Pro Max', 5, 33990000, 169950000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (20, 29, 15, 'Laptop HP Omen 15 ek0078TX i7 10750H/16GB/1TB SSD/8GB', 6, 55490000, 332940000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (21, 28, 3, 'Điện thoại iPhone 13 Pro Max', 10, 33990000, 339900000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (22, 28, 15, 'Laptop HP Omen 15 ek0078TX i7 10750H/16GB/1TB SSD/8GB', 10, 55490000, 554900000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (23, 30, 3, 'Điện thoại iPhone 13 Pro Max', 1, 33990000, 33990000);
+INSERT INTO doan.warehousereceiptdetail (id, idWare, idPro, namePro, quantity, price, amount) VALUES (24, 31, 15, 'Laptop HP Omen 15 ek0078TX i7 10750H/16GB/1TB SSD/8GB', 2, 55490000, 110980000);

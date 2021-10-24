@@ -1,0 +1,4 @@
+INSERT INTO doan.warehouse (id, nameWar, idWar, idDis, idPro, address, status, street) VALUES (1, 'Kho A', '10054', '277', '01', 'đường Nguyễn Văn Trỗi Xã Đại Yên Huyện Chương Mỹ Thành phố Hà Nội', 1, 'ABCd');
+INSERT INTO doan.warehouse (id, nameWar, idWar, idDis, idPro, address, status, street) VALUES (2, 'Kho B', '00373', '009', '01', 'ngõ 3 Hoàng Đạo Thành Phường Kim Giang Quận Thanh Xuân Thành phố Hà Nội', 1, 'ngõ 3 hoàng đạo thành');
+INSERT INTO doan.warehouse (id, nameWar, idWar, idDis, idPro, address, status, street) VALUES (3, 'Kho C', '30469', '889', '89', 'Ấp Mỹ Thiện Xã Mỹ Đức Huyện Châu Phú Tỉnh An Giang', 1, 'Ấp Mỹ Thiện');
+INSERT INTO doan.warehouse (id, nameWar, idWar, idDis, idPro, address, status, street) VALUES (4, 'Kho B1', '00364', '009', '01', 'đường khương đình Phường Khương Đình Quận Thanh Xuân Thành phố Hà Nội', 1, 'đường khương đình');
