@@ -1,5 +1,6 @@
 package com.doan.webbanhang.controller;
 
+import com.doan.webbanhang.dto.BranchCategoryDTO;
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.Result;
 import com.doan.webbanhang.dto.SearchTermDTO;
@@ -100,7 +101,7 @@ public class ProductController {
     }
 
     @PostMapping("/get-product-default-for-welcome")
-    public ResponseEntity<List<ProductDTO>> loadProductDefaultForWelcome(@RequestBody List<Long> listID) {
+    public ResponseEntity<List<ProductDTO>> loadProductDefaultForWelcome(@RequestBody List<BranchCategoryDTO> listID) {
         try {
             List<ProductDTO> pageTust = productService.loadProductDefaultForWelcome(listID);
             return new ResponseEntity<>(pageTust, HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.doan.webbanhang.repository;
 
+import com.doan.webbanhang.dto.BranchCategoryDTO;
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.Product;
@@ -15,7 +16,7 @@ public interface ProductRepositoryCustom {
 
     List<Product> loadAllDataForReceipt();
 
-    List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID);
+    List<ProductDTO> loadProductDefaultForWelcome(List<BranchCategoryDTO> listID);
 
     ProductDTO findOneById(Long id);
 }

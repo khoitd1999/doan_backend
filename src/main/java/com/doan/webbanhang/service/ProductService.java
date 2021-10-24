@@ -1,5 +1,6 @@
 package com.doan.webbanhang.service;
 
+import com.doan.webbanhang.dto.BranchCategoryDTO;
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.*;
@@ -21,7 +22,7 @@ public interface ProductService {
 
     List<Product> loadAll();
 
-    List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID);
+    List<ProductDTO> loadProductDefaultForWelcome(List<BranchCategoryDTO> listID);
 
     Double submitComment(Comment comment);
 

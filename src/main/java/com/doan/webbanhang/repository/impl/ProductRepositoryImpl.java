@@ -1,5 +1,6 @@
 package com.doan.webbanhang.repository.impl;
 
+import com.doan.webbanhang.dto.BranchCategoryDTO;
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.Product;
@@ -128,16 +129,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID) {
+    public List<ProductDTO> loadProductDefaultForWelcome(List<BranchCategoryDTO> listID) {
         StringBuilder sql = new StringBuilder();
         List<ProductDTO> lst = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
-        sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(0).append(" order by date desc limit 6) ");
-        params.put("idBra0", listID.get(0));
+        sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra0 and idCat = :idCat0 ").append(" order by date desc limit 6) ");
+        params.put("idBra0", listID.get(0).getIdBra());
+        params.put("idCat0", listID.get(0).getIdCat());
         for (int i = 1; i < listID.size(); i++) {
             sql.append(" union ");
-            sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(i).append(" order by date desc limit 6) ");
-            params.put("idBra" + i, listID.get(i));
+            sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(i).append(" and idCat = :idCat").append(i).append(" order by date desc limit 6) ");
+            params.put("idBra" + i, listID.get(i).getIdBra());
+            params.put("idCat" + i, listID.get(i).getIdCat());
         }
         Query query = entityManager.createNativeQuery(sql.toString() , "ProductDTOForWelcome");
         Common.setParams(query, params);

@@ -23,5 +23,5 @@ public class Brand implements Serializable {
     private String nameBra;
 
     @Column(name = "idcat")
-    private Long idCat;
+    private String idCat;
 }

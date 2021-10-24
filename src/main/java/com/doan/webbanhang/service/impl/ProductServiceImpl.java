@@ -1,6 +1,7 @@
 package com.doan.webbanhang.service.impl;
 
 
+import com.doan.webbanhang.dto.BranchCategoryDTO;
 import com.doan.webbanhang.dto.ProductDTO;
 import com.doan.webbanhang.dto.SearchTermDTO;
 import com.doan.webbanhang.entity.*;
@@ -101,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> loadProductDefaultForWelcome(List<Long> listID) {
+    public List<ProductDTO> loadProductDefaultForWelcome(List<BranchCategoryDTO> listID) {
         return productRepository.loadProductDefaultForWelcome(listID);
     }
 
