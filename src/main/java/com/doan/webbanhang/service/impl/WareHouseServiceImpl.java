@@ -36,8 +36,8 @@ public class WareHouseServiceImpl implements WareHouseService {
     @Autowired
     private PolicyRepository policyRepository;
 
-    @Value(value = "${key}")
-    private String key;
+//    @Value(value = "${key}")
+//    private String key;
 
     public WareHouseServiceImpl(AreaRepository areaRepository,
                                 WareHouseRepository wareHouseRepository,
