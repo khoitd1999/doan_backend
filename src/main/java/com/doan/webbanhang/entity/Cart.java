@@ -36,4 +36,7 @@ public class Cart implements Serializable {
 
     @Column(name = "amount")
     private Double amount;
+
+    @Column(name = "status")
+    private Boolean status;
 }
