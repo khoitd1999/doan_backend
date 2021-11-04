@@ -16,7 +16,7 @@ public class CartDTO {
     private Integer quantity;
     private Double price;
     private Double amount;
-    private Boolean status;
+    private Long idCli;
 
     public CartDTO(Long id, Long idPro, String namePro, byte[] image, Integer quantity, Double price, Double amount) {
         this.id = id;
