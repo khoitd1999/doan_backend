@@ -40,4 +40,6 @@ public class SearchTermDTO {
     private LocalDate fromDateSearch;
     private Integer statusSearch;
     private Integer typeShipSearch;
+    private String usernameSearch;
+    private String fullNameSearch;
 }
