@@ -45,6 +45,23 @@ public class LoginController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/pagination-admin")
+    public ResponseEntity<Result<List<Object>>> loadDataAll(Pageable pageable, @RequestParam String searchTerm) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SearchTermDTO searchTermDTO = objectMapper.readValue(searchTerm, SearchTermDTO.class);
+            Page<Employee> pageTust = employeeService.loadDataAll(pageable, searchTermDTO);
+            Result<List<Object>> result = new Result<>();
+            List<Object> list = new ArrayList<>();
+            list.add(pageTust.getContent());
+            list.add(pageTust.getTotalElements());
+            result.setBody(list);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/check-login")
     public ResponseEntity<Result<Client>> checkLogin(@RequestParam String phone, @RequestParam String password) {
         Result<Client> result = new Result<>();
@@ -57,13 +74,24 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Result<Client>> checkLogin(@RequestBody Client client) {
+    public ResponseEntity<Result<Client>> register(@RequestBody Client client) {
         Result<Client> result = new Result<>();
         client = clientService.save(client);
         if (client == null) {
             result.setMessage("Số điện thoại đã được đăng ký");
         }
         result.setBody(client);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/save-user-admin")
+    public ResponseEntity<Result<Employee>> register(@RequestBody Employee employee) {
+        Result<Employee> result = new Result<>();
+        employee = employeeService.save(employee);
+        if (employee == null) {
+            result.setMessage("Tài khoản đã tồn tại");
+        }
+        result.setBody(employee);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

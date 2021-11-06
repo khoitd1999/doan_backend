@@ -30,4 +30,7 @@ public class Employee implements Serializable {
 
     @Column(name = "role")
     private String role;
+
+    @Column(name = "status")
+    private Boolean status;
 }

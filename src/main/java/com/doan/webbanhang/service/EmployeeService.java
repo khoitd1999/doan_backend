@@ -11,4 +11,8 @@ import java.util.List;
 
 public interface EmployeeService {
     Employee checkLoginAdmin(String username, String password);
+
+    Page<Employee> loadDataAll(Pageable pageable, SearchTermDTO searchTermDTO);
+
+    Employee save(Employee employee);
 }
