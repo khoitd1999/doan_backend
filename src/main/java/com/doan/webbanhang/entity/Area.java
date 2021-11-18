@@ -30,10 +30,4 @@ public class Area implements Serializable {
 
     @Column(name = "status")
     private Integer status;
-
-    @Column(name = "dkkdid")
-    private String dkkdid;
-
-    @Column(name = "region")
-    private Boolean region;
 }
