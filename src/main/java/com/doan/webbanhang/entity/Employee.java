@@ -33,4 +33,10 @@ public class Employee implements Serializable {
 
     @Column(name = "status")
     private Boolean status;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
 }
