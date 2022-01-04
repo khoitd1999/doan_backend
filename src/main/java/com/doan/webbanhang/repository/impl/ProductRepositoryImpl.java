@@ -32,6 +32,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         List<Product> lst = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
         sql.append(" From Product where 1 = 1 ");
+        if (Boolean.FALSE.equals(searchTermDTO.getIsAdmin())) {
+            sql.append(" and status = 1 ");
+        }
         if (searchTermDTO.getNameSearch() != null && !searchTermDTO.getNameSearch().trim().isEmpty()) {
             sql.append(" and namePro like :name");
             params.put("name", "%" + searchTermDTO.getNameSearch() + "%");
@@ -133,12 +136,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         StringBuilder sql = new StringBuilder();
         List<ProductDTO> lst = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
-        sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra0 and idCat = :idCat0 ").append(" order by date desc limit 6) ");
+        sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra0 and idCat = :idCat0 ").append(" and status = 1 order by date desc limit 6) ");
         params.put("idBra0", listID.get(0).getIdBra());
         params.put("idCat0", listID.get(0).getIdCat());
         for (int i = 1; i < listID.size(); i++) {
             sql.append(" union ");
-            sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(i).append(" and idCat = :idCat").append(i).append(" order by date desc limit 6) ");
+            sql.append("(select id, namePro, price, idCat, idBra, image from product where idBra = :idBra").append(i).append(" and idCat = :idCat").append(i).append(" and status = 1 order by date desc limit 6) ");
             params.put("idBra" + i, listID.get(i).getIdBra());
             params.put("idCat" + i, listID.get(i).getIdCat());
         }

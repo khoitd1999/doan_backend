@@ -28,6 +28,7 @@ public class AreaRepositoryImpl implements AreaRepositoryCustom {
         List<Area> lst = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
         if (searchTermDTO.getCode() == null) {
+            // parentcode của tỉnh thành là 0003
             searchTermDTO.setCode("0003");
         }
         sql.append(" From Area where parentcode = :code ");

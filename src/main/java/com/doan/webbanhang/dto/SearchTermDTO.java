@@ -33,6 +33,7 @@ public class SearchTermDTO {
     private Long idBil;
     private Integer type;
     private Long idPro;
+    private Boolean isAdmin;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)

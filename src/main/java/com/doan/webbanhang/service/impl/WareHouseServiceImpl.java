@@ -36,8 +36,8 @@ public class WareHouseServiceImpl implements WareHouseService {
     @Autowired
     private PolicyRepository policyRepository;
 
-//    @Value(value = "${key}")
-//    private String key;
+    @Value(value = "${key}")
+    private String key;
 
     public WareHouseServiceImpl(AreaRepository areaRepository,
                                 WareHouseRepository wareHouseRepository,
@@ -131,22 +131,22 @@ public class WareHouseServiceImpl implements WareHouseService {
                 mapAddress.put(tmp.getAddress(), value);
             }
         }
-//        OkHttpClient client = new OkHttpClient().newBuilder().build();
-//        String origin = URLEncoder.encode(searchTermDTO.getAddressSearch(), "UTF-8");
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(URLEncoder.encode(addressWareHouses.get(0), "UTF-8"));
-//        for (int i = 1; i < addressWareHouses.size(); i++) {
-//            String des = URLEncoder.encode(addressWareHouses.get(i), "UTF-8");
-//            sb.append("%7C").append(des);
-//        }
-//        Request request = new Request.Builder()
-//                .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin +"&destinations=" + sb.toString() + "&key=" + key)
-//                .method("GET", null)
-//                .build();
-//        ResponseBody responseBody = client.newCall(request).execute().body();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        String origin = URLEncoder.encode(searchTermDTO.getAddressSearch(), "UTF-8");
+        StringBuilder sb = new StringBuilder();
+        sb.append(URLEncoder.encode(addressWareHouses.get(0), "UTF-8"));
+        for (int i = 1; i < addressWareHouses.size(); i++) {
+            String des = URLEncoder.encode(addressWareHouses.get(i), "UTF-8");
+            sb.append("%7C").append(des);
+        }
+        Request request = new Request.Builder()
+                .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin +"&destinations=" + sb.toString() + "&key=" + key)
+                .method("GET", null)
+                .build();
+        ResponseBody responseBody = client.newCall(request).execute().body();
         ObjectMapper objectMapper = new ObjectMapper();
         // google 1
-//        GoogleAPI googleAPI = objectMapper.readValue(responseBody.string(), GoogleAPI.class);
+        GoogleAPI googleAPI = objectMapper.readValue(responseBody.string(), GoogleAPI.class);
 
         // goolge 2: TH 1 cửa hàng tất cả sản phẩm
 //        GoogleAPI googleAPI = objectMapper.readValue("{\n" +
@@ -222,42 +222,42 @@ public class WareHouseServiceImpl implements WareHouseService {
 //                "}\n", GoogleAPI.class);
 
         // google 3: TH cửa hàng không có đủ hàng
-        GoogleAPI googleAPI = objectMapper.readValue("{\n" +
-                "   \"destination_addresses\" : [\n" +
-                "      \"Ngõ 3 Hoàng Đạo Thành, Kim Giang, Thanh Xuân, Hà Nội, Vietnam\",\n" +
-                "      \"Đường Khương Đình, Khương Đình, Thanh Xuân, Hà Nội, Vietnam\"\n" +
-                "   ],\n" +
-                "   \"origin_addresses\" : [ \"Ha Dinh, Thanh Xuân, Hanoi, Vietnam\" ],\n" +
-                "   \"rows\" : [\n" +
-                "      {\n" +
-                "         \"elements\" : [\n" +
-                "            {\n" +
-                "               \"distance\" : {\n" +
-                "                  \"text\" : \"1.1 km\",\n" +
-                "                  \"value\" : 1121\n" +
-                "               },\n" +
-                "               \"duration\" : {\n" +
-                "                  \"text\" : \"4 mins\",\n" +
-                "                  \"value\" : 217\n" +
-                "               },\n" +
-                "               \"status\" : \"OK\"\n" +
-                "            },\n" +
-                "            {\n" +
-                "               \"distance\" : {\n" +
-                "                  \"text\" : \"1.2 km\",\n" +
-                "                  \"value\" : 1236\n" +
-                "               },\n" +
-                "               \"duration\" : {\n" +
-                "                  \"text\" : \"4 mins\",\n" +
-                "                  \"value\" : 227\n" +
-                "               },\n" +
-                "               \"status\" : \"OK\"\n" +
-                "            }\n" +
-                "         ]\n" +
-                "      }\n" +
-                "   ],\n" +
-                "   \"status\" : \"OK\"\n" +
-                "}", GoogleAPI.class);
+//        GoogleAPI googleAPI = objectMapper.readValue("{\n" +
+//                "   \"destination_addresses\" : [\n" +
+//                "      \"Ngõ 3 Hoàng Đạo Thành, Kim Giang, Thanh Xuân, Hà Nội, Vietnam\",\n" +
+//                "      \"Đường Khương Đình, Khương Đình, Thanh Xuân, Hà Nội, Vietnam\"\n" +
+//                "   ],\n" +
+//                "   \"origin_addresses\" : [ \"Ha Dinh, Thanh Xuân, Hanoi, Vietnam\" ],\n" +
+//                "   \"rows\" : [\n" +
+//                "      {\n" +
+//                "         \"elements\" : [\n" +
+//                "            {\n" +
+//                "               \"distance\" : {\n" +
+//                "                  \"text\" : \"1.1 km\",\n" +
+//                "                  \"value\" : 1121\n" +
+//                "               },\n" +
+//                "               \"duration\" : {\n" +
+//                "                  \"text\" : \"4 mins\",\n" +
+//                "                  \"value\" : 217\n" +
+//                "               },\n" +
+//                "               \"status\" : \"OK\"\n" +
+//                "            },\n" +
+//                "            {\n" +
+//                "               \"distance\" : {\n" +
+//                "                  \"text\" : \"1.2 km\",\n" +
+//                "                  \"value\" : 1236\n" +
+//                "               },\n" +
+//                "               \"duration\" : {\n" +
+//                "                  \"text\" : \"4 mins\",\n" +
+//                "                  \"value\" : 227\n" +
+//                "               },\n" +
+//                "               \"status\" : \"OK\"\n" +
+//                "            }\n" +
+//                "         ]\n" +
+//                "      }\n" +
+//                "   ],\n" +
+//                "   \"status\" : \"OK\"\n" +
+//                "}", GoogleAPI.class);
 
         List<Elements> kcClientToWareHouse = googleAPI.getRows().get(0).getElements();
         int min = Integer.MAX_VALUE;
@@ -265,10 +265,9 @@ public class WareHouseServiceImpl implements WareHouseService {
         String km = "";
         for (int i = 0; i < kcClientToWareHouse.size(); i++) {
             Duration duration = kcClientToWareHouse.get(i).getDuration();
-            String[] sequence = duration.getText().split(" ");
-            int time = Integer.parseInt(sequence[0]);
-            if (time < min) {
-                min = time;
+            int timeValue = Integer.parseInt(duration.getValue());
+            if (timeValue < min) {
+                min = timeValue;
                 imin = i;
                 km = kcClientToWareHouse.get(i).getDistance().getText();
             }
